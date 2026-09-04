@@ -38,6 +38,7 @@
       const target = parseFloat(el.dataset.count);
       const suffix = el.dataset.suffix || '';
       const dur = 1600; const start = performance.now();
+      el.textContent = '0' + suffix;
       const tick = (now) => {
         const p = Math.min((now - start) / dur, 1);
         const eased = 1 - Math.pow(1 - p, 3);
