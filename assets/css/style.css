@@ -21,7 +21,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{
   font-family:var(--font);
   background:var(--bg);
@@ -113,18 +113,21 @@ header.nav{
 .hero-stats .stat:not(:last-child)::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:38px;background:var(--line)}
 .hero-stats .stat b{font-family:var(--serif);font-size:2.4rem;font-weight:700;color:var(--gold-2);display:block;line-height:1;margin-bottom:4px}
 .hero-stats .stat span{font-size:.8rem;color:var(--muted);letter-spacing:.04em;font-weight:600}
-.hero-visual{position:relative;height:460px}
-.float-card{
-  position:absolute;background:linear-gradient(160deg,var(--panel),var(--panel-2));
-  border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);
-  backdrop-filter:blur(6px);
+.hero-visual{position:relative}
+.hero-photo{
+  position:relative;border-radius:22px;overflow:hidden;
+  border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.6);
+  transform-style:preserve-3d;
 }
-.float-card .ic{width:42px;height:42px;border-radius:11px;background:var(--gold-soft);display:grid;place-items:center;margin-bottom:12px;color:var(--gold-2)}
-.float-card h4{font-family:var(--font);font-size:.98rem;font-weight:700;margin-bottom:4px}
-.float-card p{font-size:.8rem;color:var(--muted);line-height:1.4}
-.fc1{top:10px;left:0;width:230px;animation:floaty 6s ease-in-out infinite}
-.fc2{top:150px;right:0;width:235px;animation:floaty 6s ease-in-out infinite .8s}
-.fc3{bottom:10px;left:40px;width:250px;animation:floaty 6s ease-in-out infinite 1.6s}
+.hero-photo img{width:100%;height:520px;object-fit:cover;display:block}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,11,15,.85));pointer-events:none}
+.hero-photo-badges{position:absolute;left:18px;bottom:18px;display:flex;gap:10px;flex-wrap:wrap;z-index:2}
+.hp-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(18,21,29,.72);backdrop-filter:blur(10px);
+  border:1px solid var(--line);color:var(--gold-2);
+  padding:8px 14px;border-radius:40px;font-size:.82rem;font-weight:700;letter-spacing:.02em;
+}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 
 .scroll-ind{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -155,6 +158,20 @@ header.nav{
 .card h3{font-size:1.5rem;margin-bottom:12px;transform:translateZ(30px)}
 .card p{color:var(--muted);font-size:.96rem;transform:translateZ(20px)}
 .card .card-link{margin-top:18px;display:inline-flex;gap:8px;color:var(--gold-2);font-weight:700;font-size:.9rem;transform:translateZ(25px)}
+
+/* photo-topped service cards */
+.card-photo{padding:0;overflow:hidden}
+.card-photo .card-img{position:relative;height:190px;overflow:hidden}
+.card-photo .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.card-photo .card-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(18,21,29,.9))}
+.card-photo:hover .card-img img{transform:scale(1.07)}
+.card-photo .card-body{padding:28px 30px 34px;position:relative}
+.card-photo .card-ic{margin-top:-52px;position:relative;z-index:2;transform:none;box-shadow:0 10px 24px rgba(0,0,0,.4)}
+.card-photo:hover{transform:none}
+
+.services-more{text-align:center;margin-top:44px;color:var(--muted);font-size:1.05rem}
+.services-more a{color:var(--gold-2);font-weight:700;border-bottom:1px solid var(--line);padding-bottom:2px;transition:.25s}
+.services-more a:hover{border-color:var(--gold-2)}
 
 /* ---------- About ---------- */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
@@ -251,22 +268,58 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:64px 0 30
 /* ---------- Responsive ---------- */
 @media (max-width:960px){
   .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr}
-  .hero-visual{height:420px;order:-1}
+  .hero-visual{order:-1}
+  .hero-photo img{height:360px}
   .services-grid,.quotes{grid-template-columns:1fr 1fr}
   .steps,.band-grid{grid-template-columns:1fr 1fr}
   .foot-grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:640px){
-  section{padding:80px 0}
+  section{padding:70px 0}
+  .container{padding:0 20px}
+
   .nav-links{
     position:fixed;top:0;right:-100%;height:100vh;width:74%;max-width:320px;
     background:var(--bg-2);flex-direction:column;justify-content:center;gap:28px;
     border-left:1px solid var(--line);transition:.35s;z-index:55;
   }
   .nav-links.open{right:0}
+  .nav-links a{font-size:1.05rem}
   .nav-links .nav-cta{margin-top:10px}
   .hamburger{display:flex;z-index:56}
+
   .services-grid,.quotes,.steps,.band-grid,.foot-grid{grid-template-columns:1fr}
-  .hero-stats{gap:24px}
-  .about-badge{right:0}
+
+  /* ---- Mobile typography: consistent, readable scale ---- */
+  .hero{padding-top:100px}
+  .hero h1{font-size:2.35rem;margin-bottom:18px}
+  .hero p.lead{font-size:1.05rem;margin-bottom:28px}
+  .eyebrow{font-size:.7rem;letter-spacing:.2em;margin-bottom:14px}
+  .section-title{font-size:1.9rem}
+  .section-sub{font-size:1rem}
+  .card h3{font-size:1.35rem}
+  .card p{font-size:.95rem}
+  .card-photo .card-img{height:170px}
+  .services-more{font-size:1rem}
+  .step h4{font-size:1.05rem}
+  .quote p{font-size:1rem}
+  .faq-q{font-size:1rem;padding:18px 20px}
+  .info-row a,.info-row p{font-size:1rem}
+
+  /* hero stats: stack cleanly, kill the vertical dividers */
+  .hero-stats{gap:20px 26px;flex-wrap:wrap}
+  .hero-stats .stat{padding:0}
+  .hero-stats .stat::after{display:none !important}
+  .hero-stats .stat b{font-size:2rem}
+
+  .hero-cta{gap:12px}
+  .hero-cta .btn{width:100%;justify-content:center}
+
+  .about-badge{right:14px;bottom:-18px;padding:14px 20px}
+  .about-badge b{font-size:1.9rem}
+}
+
+@media (max-width:380px){
+  .hero h1{font-size:2.05rem}
+  .section-title{font-size:1.7rem}
 }
