@@ -120,17 +120,26 @@ header.nav{
   transform-style:preserve-3d;
 }
 .hero-photo img{width:100%;height:520px;object-fit:cover;display:block}
-.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,11,15,.85));pointer-events:none}
-.hero-photo-badges{position:absolute;left:18px;bottom:18px;display:flex;gap:10px;flex-wrap:wrap;z-index:2}
+.hero-photo::after{content:"";position:absolute;inset:0;border-radius:22px;background:linear-gradient(180deg,transparent 50%,rgba(10,11,15,.9));pointer-events:none}
+
+/* Badges are siblings of .hero-photo (NOT children) so the tilt transform,
+   overflow:hidden and 3D context can't clip them or break their background. */
+.hero-photo-badges{
+  position:absolute;left:16px;right:16px;bottom:16px;
+  display:flex;gap:10px;flex-wrap:wrap;z-index:5;pointer-events:none;
+}
 .hp-badge{
   display:inline-flex;align-items:center;gap:7px;
-  background:rgba(18,21,29,.72);backdrop-filter:blur(10px);
+  background:linear-gradient(135deg,rgba(20,24,33,.94),rgba(26,31,43,.94));
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
   border:1px solid var(--line);color:var(--gold-2);
-  padding:8px 14px;border-radius:40px;font-size:.82rem;font-weight:700;letter-spacing:.02em;
+  padding:9px 15px;border-radius:40px;font-size:.84rem;font-weight:700;letter-spacing:.02em;
+  box-shadow:0 6px 18px rgba(0,0,0,.45);white-space:nowrap;
 }
+.hp-badge svg{color:var(--gold-2);flex-shrink:0}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 
-.scroll-ind{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-ind{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:1;pointer-events:none}
 .scroll-ind .mouse{width:22px;height:36px;border:2px solid var(--line);border-radius:14px;position:relative}
 .scroll-ind .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:4px;height:7px;border-radius:3px;background:var(--gold);animation:scrolldot 1.6s infinite}
 @keyframes scrolldot{0%{opacity:1;top:7px}100%{opacity:0;top:18px}}
@@ -175,18 +184,19 @@ header.nav{
 
 /* ---------- About ---------- */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.about-visual{position:relative}
+.about-visual{position:relative;margin-bottom:20px}
 .about-visual .frame{
   border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);
   aspect-ratio:4/3;background:linear-gradient(160deg,var(--panel),var(--panel-2));position:relative;
 }
-.about-visual{margin-bottom:20px}
 .about-badge{
-  position:absolute;bottom:-22px;right:20px;background:linear-gradient(135deg,var(--gold),var(--gold-2));
-  color:#1a1500;border-radius:16px;padding:18px 24px;box-shadow:var(--shadow);text-align:center;z-index:2;
+  position:absolute;bottom:-24px;right:24px;
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));
+  color:#1a1500;border-radius:16px;padding:16px 22px;box-shadow:var(--shadow);text-align:left;z-index:3;
 }
-.about-badge b{font-family:var(--serif);font-size:2.2rem;font-weight:700;display:block;line-height:1;margin-bottom:2px}
-.about-badge span{font-size:.74rem;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+.about-badge b{font-family:var(--serif);font-size:2.3rem;font-weight:700;display:block;line-height:1}
+.about-badge span{font-size:.8rem;font-weight:700;letter-spacing:.02em;line-height:1.2;max-width:90px}
 .about-list{margin-top:26px;display:grid;gap:16px}
 .about-list li{display:flex;gap:14px;align-items:flex-start}
 .about-list .tick{width:26px;height:26px;border-radius:50%;background:var(--gold-soft);color:var(--gold-2);display:grid;place-items:center;flex-shrink:0;margin-top:3px}
@@ -291,7 +301,10 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:64px 0 30
   .services-grid,.quotes,.steps,.band-grid,.foot-grid{grid-template-columns:1fr}
 
   /* ---- Mobile typography: consistent, readable scale ---- */
-  .hero{padding-top:100px}
+  /* Let the hero grow with content instead of forcing 100vh (which caused the
+     scroll indicator to overlap the stacked stat cards). */
+  .hero{min-height:auto;padding-top:110px;padding-bottom:60px}
+  .scroll-ind{display:none}
   .hero h1{font-size:2.35rem;margin-bottom:18px}
   .hero p.lead{font-size:1.05rem;margin-bottom:28px}
   .eyebrow{font-size:.7rem;letter-spacing:.2em;margin-bottom:14px}
@@ -307,19 +320,26 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding:64px 0 30
   .info-row a,.info-row p{font-size:1rem}
 
   /* hero stats: stack cleanly, kill the vertical dividers */
-  .hero-stats{gap:20px 26px;flex-wrap:wrap}
-  .hero-stats .stat{padding:0}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .hero-stats .stat{padding:14px 6px;text-align:center;background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:14px}
   .hero-stats .stat::after{display:none !important}
-  .hero-stats .stat b{font-size:2rem}
+  .hero-stats .stat b{font-size:1.85rem;margin-bottom:6px}
+  .hero-stats .stat span{font-size:.72rem;line-height:1.25;display:block}
 
   .hero-cta{gap:12px}
   .hero-cta .btn{width:100%;justify-content:center}
 
-  .about-badge{right:14px;bottom:-18px;padding:14px 20px}
+  .about-badge{right:14px;bottom:-20px;padding:13px 18px;gap:10px}
   .about-badge b{font-size:1.9rem}
+  .about-badge span{font-size:.74rem;max-width:80px}
 }
 
 @media (max-width:380px){
   .hero h1{font-size:2.05rem}
   .section-title{font-size:1.7rem}
+}
+
+/* Hide the scroll cue when the viewport is too short for it to sit clear of content */
+@media (max-height:760px){
+  .scroll-ind{display:none}
 }
