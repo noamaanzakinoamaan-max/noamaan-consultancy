@@ -4,6 +4,17 @@
 (function () {
   'use strict';
 
+  /* ---------- Loading screen ---------- */
+  const loader = document.getElementById('loader');
+  if (loader) {
+    const hideLoader = () => setTimeout(() => loader.classList.add('hide'), 500);
+    if (document.readyState === 'complete') hideLoader();
+    else window.addEventListener('load', hideLoader);
+    // hard fallback so it never gets stuck
+    setTimeout(() => loader.classList.add('hide'), 4000);
+  }
+
+
   /* ---------- Navbar scroll state ---------- */
   const nav = document.querySelector('header.nav');
   const onScroll = () => {
@@ -83,6 +94,46 @@
         `Name: ${d.get('name')}\nPhone: ${d.get('phone')}\nEmail: ${d.get('email')}\nService: ${d.get('service')}\n\nMessage:\n${d.get('message')}`
       );
       window.location.href = `mailto:hello@noamaanconsultancy.in?subject=${subject}&body=${body}`;
+    });
+  }
+
+  /* ---------- Business card flip + save contact (vCard) ---------- */
+  const bizcard = document.getElementById('bizcard');
+  if (bizcard) {
+    const flip = (e) => {
+      // don't flip when tapping a link/button on the card
+      if (e.target.closest('a')) return;
+      bizcard.classList.toggle('flipped');
+    };
+    bizcard.addEventListener('click', flip);
+    bizcard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); bizcard.classList.toggle('flipped'); }
+    });
+  }
+
+  const saveBtn = document.getElementById('bc-save');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const vcard = [
+        'BEGIN:VCARD', 'VERSION:3.0',
+        'N:;Noamaan Consultancy Services;;;',
+        'FN:Noamaan Consultancy Services',
+        'ORG:Noamaan Consultancy Services',
+        'TITLE:Real Estate, Legal, Loans & Settlements',
+        'TEL;TYPE=WORK,VOICE:+918369940174',
+        'TEL;TYPE=CELL,VOICE:+919833188873',
+        'EMAIL;TYPE=WORK:hello@noamaanconsultancy.in',
+        'URL:https://noamaanconsultancy.in',
+        'ADR;TYPE=WORK:;;Pearl Plaza 1st Floor Shop No. 132 Opp. Andheri Station (W);Mumbai;Maharashtra;400058;India',
+        'END:VCARD'
+      ].join('\r\n');
+      const blob = new Blob([vcard], { type: 'text/vcard' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'Noamaan-Consultancy.vcf';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(url);
     });
   }
 

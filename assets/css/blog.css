@@ -1,0 +1,59 @@
+/* Article / blog page styles */
+.article-page{background:var(--bg)}
+.article-page #bg-canvas{display:none}
+.article{position:relative;z-index:1}
+.article-hero{width:100%;height:340px;overflow:hidden;position:relative}
+.article-hero img{width:100%;height:100%;object-fit:cover}
+.article-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,15,.35),var(--bg))}
+.article-body{max-width:760px;padding-top:40px;padding-bottom:80px}
+.back-link{display:inline-block;color:var(--muted);font-weight:600;font-size:.9rem;margin-bottom:20px;transition:.2s}
+.back-link:hover{color:var(--gold-2)}
+.article-body h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);line-height:1.12;margin:14px 0 10px}
+.article-meta{color:var(--muted);font-size:.9rem;margin-bottom:30px}
+.article-body .lead{font-size:1.2rem;color:var(--text);line-height:1.6;margin-bottom:30px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.article-body h2{font-family:var(--serif);font-size:1.7rem;color:var(--gold-2);margin:34px 0 12px}
+.article-body p{color:var(--muted);margin-bottom:16px;line-height:1.75;font-size:1.02rem}
+.article-body ul,.article-body ol{margin:0 0 20px 22px;color:var(--muted);line-height:1.8}
+.article-body li{margin-bottom:8px}
+.article-body strong{color:var(--text)}
+.article-cta{background:linear-gradient(160deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--radius);padding:34px;margin:40px 0 26px;text-align:center}
+.article-cta h3{font-family:var(--serif);font-size:1.6rem;margin-bottom:10px}
+.article-cta p{margin-bottom:22px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.disclaimer{font-size:.82rem;color:var(--muted);font-style:italic;opacity:.8}
+.article-footer{border-top:1px solid var(--line);padding:30px 0;background:var(--bg-2)}
+.article-footer .container{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.article-footer p{color:var(--muted);font-size:.85rem;margin:0}
+.article-footer a{color:var(--gold-2);font-weight:700;font-size:.9rem}
+/* Blog pages have no hamburger — keep the nav visible & inline on every size,
+   overriding the homepage's off-screen mobile drawer so links never vanish
+   and no phantom horizontal scroll is created. */
+.article-page .nav-links{
+  position:static !important;height:auto !important;width:auto !important;
+  right:auto !important;background:transparent !important;border:0 !important;
+  flex-direction:row;flex-wrap:wrap;justify-content:flex-end;align-items:center;
+  gap:16px;transition:none;
+}
+.article-page .nav-inner{flex-wrap:wrap;gap:10px}
+
+@media (max-width:640px){
+  .article-page .nav-inner{padding:12px 20px}
+  .article-page .brand{font-size:1.15rem;gap:9px}
+  .article-page .brand .mark{width:38px;height:38px}
+  .article-page .brand .logo-name{font-size:1.35rem}
+  .article-page .nav-links{gap:14px}
+  .article-page .nav-links a{font-size:.9rem}
+  .article-page .nav-links .nav-cta{padding:9px 16px;font-size:.85rem}
+
+  .article-hero{height:200px}
+  .article-body{padding-top:26px;padding-bottom:56px}
+  .article-body h1{font-size:1.7rem;line-height:1.2}
+  .article-body .lead{font-size:1.06rem}
+  .article-body h2{font-size:1.35rem;margin:28px 0 10px}
+  .article-body p,.article-body ul,.article-body ol{font-size:.98rem}
+  .article-cta{padding:26px 20px}
+  .article-cta h3{font-size:1.3rem}
+  .cta-btns{flex-direction:column}
+  .cta-btns .btn{width:100%;justify-content:center}
+  .article-footer .container{flex-direction:column;align-items:flex-start;gap:10px;text-align:left}
+}
