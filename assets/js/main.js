@@ -137,6 +137,42 @@
     });
   }
 
+    /* ---------- Certificate Modal Lightbox ---------- */
+  const certModal = document.getElementById('cert-modal');
+  const openCertBtns = document.querySelectorAll('#open-cert-modal, #btn-view-cert');
+  const closeCertBtns = document.querySelectorAll('#cert-modal-close, #cert-modal-close-btn, #cert-modal-backdrop');
+
+  const openCert = () => {
+    if (!certModal) return;
+    certModal.classList.add('open');
+    certModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeCert = () => {
+    if (!certModal) return;
+    certModal.classList.remove('open');
+    certModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  openCertBtns.forEach(btn => {
+    btn.addEventListener('click', openCert);
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCert(); }
+    });
+  });
+
+  closeCertBtns.forEach(btn => {
+    btn.addEventListener('click', closeCert);
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && certModal && certModal.classList.contains('open')) {
+      closeCert();
+    }
+  });
+
   /* ---------- Footer year ---------- */
   const y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
